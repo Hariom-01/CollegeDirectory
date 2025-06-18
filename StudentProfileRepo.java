@@ -1,0 +1,20 @@
+package com.aryajohary.collegedirectory.repos;
+
+import com.aryajohary.collegedirectory.schemas.FacultyProfile;
+import com.aryajohary.collegedirectory.schemas.StudentProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
+public interface StudentProfileRepo extends JpaRepository<StudentProfile, Integer> {
+
+    @Query("select f " +
+            "from Enrollment e " +
+            "join e.studentProfile s " +
+            "join e.course c " +
+            "join c.facultyProfile f " +
+            "where s.id = :studentId")
+    List<FacultyProfile> getFacultyList(@Param("studentId") int studentId);
+}
